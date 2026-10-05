@@ -1,0 +1,96 @@
+'use strict';
+window.CASE = {
+ title: '未举起的酒杯', date: '2026.11.14',
+ people: {
+  victim:{name:'凌维岳',age:65,role:'晚宴主人',portrait:0,bio:'凌氏实业创办人。白发，深色西装；谈话总在下命令。'},
+  daughter:{name:'凌知夏',age:22,role:'女儿',portrait:1,room:'daughter',bio:'海外名校法律系学生。黑发，绿开衫；袖口拉得很低。'},
+  butler:{name:'周启明',age:54,role:'管家',portrait:2,room:'hall',bio:'在凌家工作多年。黑马甲，灰鬓；说话短而克制。'},
+  son:{name:'凌承泽',age:29,role:'儿子',portrait:3,room:'son',bio:'平时很少回家。头发染成金黄色；今晚已经喝了酒。'},
+  su:{name:'苏曼',age:44,role:'伴侣',portrait:4,room:'bedroom',bio:'与凌维岳长期同居。酒红色礼服，浓妆；回避家庭话题。'}
+ },
+ rooms:{
+  hall:{name:'大厅',floor:'一层',art:0,person:'butler',mood:'餐桌上的酒杯依旧空着。雨声从高窗传进来。',spots:[
+   ['pot','花盆',5,27,16,47],['seats','餐桌',28,62,43,33],['invitation','邀请函与日历',76,55,16,35],['clock','落地钟',91,6,9,70],['wine','酒柜',55,58,10,26]]},
+  office:{name:'凌维岳办公室',floor:'二层',art:1,mood:'门虚掩着。桌上的台灯仍然亮着。',spots:[
+   ['door','门锁',0,8,6,82],['body','查看凌维岳',50,18,23,43],['knife','短刀',60,45,5,22],['watch','腕表',49,61,5,8],['cup','药杯',50,68,7,12],['water','水杯',59,69,5,17],['pillbox','药盒',66,67,19,18],['computer','电脑',32,43,16,29],['stand','陈列架',20,36,24,10]]},
+  daughter:{name:'凌知夏房间',floor:'二层',art:2,person:'daughter',mood:'行李箱敞开着。她站在窗边，没有回头。',spots:[
+   ['phone','手机',60,32,9,10],['complaint','文件夹',49,31,9,9],['student','学生证',66,55,7,8],['suitcase','行李箱',61,61,31,35],['flowercalendar','墙上日历',47,4,7,24]]},
+  son:{name:'凌承泽房间',floor:'二层',art:3,person:'son',mood:'酒杯搁在桌沿。一件深色外套搭在椅背上。',spots:[
+   ['debt','手机与借据',9,41,17,19],['coat','外套',22,42,17,52],['refusal','抽屉',1,65,15,21],['glass','酒杯',4,43,5,16]]},
+  butler:{name:'周启明房间',floor:'一层',art:4,mood:'窄床、书桌、一只铁柜。地板擦得很干净。',spots:[
+   ['seal','纸篓',56,61,10,21],['safe','保险柜',77,3,12,18],['birthcalendar','旧日历',30,2,8,28],['drawing','儿童画',50,5,9,19],['uniform','衣柜',1,7,9,82]]},
+  bedroom:{name:'苏曼与凌维岳卧室',floor:'二层',art:5,person:'su',mood:'梳妆镜前，一张照片被翻到了背面。',spots:[
+   ['injury','私人物品袋',6,56,16,23],['credentials','文件册',44,60,26,25],['reminder','平板备忘',20,69,20,14],['frame','相框',30,51,13,20],['travelbag','旅行袋',73,67,21,24]]}
+ },
+ evidence:{
+  seats:{title:'六张席卡',room:'hall',kind:'paper',text:'凌维岳、凌知夏、凌承泽、苏曼、周启明，以及你。周启明的椅子收在桌下。'},
+  invitation:{title:'邀请函',room:'hall',kind:'invitation',text:'11月14日，19:00。白栎庄园，晚宴及家庭事务安排。'},
+  calendar:{title:'桌上日历',room:'hall',kind:'calendar',text:'11月14日被圈起。旁边写着：今晚。月日四位。'},
+  bottle:{title:'棕色小瓶',room:'hall',kind:'bottle',text:'瓶身沾着湿土。标签边缘有撕口。',detail:'HX-17 / 灰鸢素X\n危险。潜伏约15—30分钟。',weapon:true},
+  wine:{title:'未开启的酒瓶',room:'hall',kind:'wine',text:'封口完好。宴席还没开始。',weapon:true},
+  door:{title:'破损门锁',room:'office',kind:'lock',text:'锁口崩裂。地上有木屑和一小片金属。'},
+  body:{title:'现场记录',room:'office',kind:'body',text:'凌维岳坐在办公桌前，眼睛闭着。衣襟有少量血迹，刀柄露在外面。',detail:'椅子和桌面没有明显移位。'},
+  knife:{title:'收藏短刀',room:'office',kind:'knife',text:'刀柄露在衣襟外。刻花铜柄，窄刃。',weapon:true},
+  cup:{title:'药杯',room:'office',kind:'cup',text:'杯底留有少量浅色残留物。',weapon:true},
+  water:{title:'水杯',room:'office',kind:'water',text:'杯中剩下约半杯水。',weapon:true},
+  pillbox:{title:'分装药盒',room:'office',kind:'pills',text:'其他日期的格子里还有药物。盒内纸条：晚间18:00。',weapon:true},
+  watch:{title:'腕表心率记录',room:'office',kind:'watch',text:'设备连接连续。单位：次／分。',detail:'18:10　78\n18:18　48\n18:23　未读到\n18:30　未读到\n18:40　未读到'},
+  stand:{title:'陈列架',room:'office',kind:'stand',text:'架上有一处空位。底座标着“短刀”。'},
+  email:{title:'垃圾箱里的邮件',room:'office',kind:'email',text:'家庭情况调查 · 草稿，未发送。删除时间16:12。',detail:'唐先生，请核查周启明与苏曼过去的关系，以及凌知夏的出生情况。此前询价后，我决定正式委托。'},
+  company:{title:'公司内部文件',room:'office',kind:'paper',text:'项目已结项。工人补偿款暂缓拨付，宣传按原方案推进。'},
+  agenda:{title:'晚宴安排',room:'office',kind:'paper',text:'承泽：停止额外拨款。知夏：撤回投诉材料。周启明：月底离职。苏曼：月底迁出。'},
+  phone:{title:'机票订单',room:'daughter',kind:'phone',text:'乘客：凌知夏。11月15日 00:30，国际出发。',detail:'下单时间：今日17:10\n接送预约：今晚21:40'},
+  complaint:{title:'投诉材料草稿',room:'daughter',kind:'paper',text:'关于凌氏项目拖欠工人补偿款的材料。',detail:'署名：凌知夏。首页便笺：明早递交。'},
+  student:{title:'学生证',room:'daughter',kind:'student',text:'凌知夏，法律系。出生日期：2004年6月17日。'},
+  suitcase:{title:'行李箱',room:'daughter',kind:'case',text:'衣物、书和护照。衣物叠得很整齐。'},
+  debt:{title:'借款催款信息',room:'son',kind:'phone',text:'尚欠280万。最后期限：11月15日。',detail:'借款人：凌承泽。'},
+  coat:{title:'湿外套',room:'son',kind:'coat',text:'袖口洗过，留下浅淡污迹。折边夹着一小片金属。'},
+  refusal:{title:'父亲的留言',room:'son',kind:'paper',text:'不会再给你填窟窿。'},
+  glass:{title:'半杯酒',room:'son',kind:'wineglass',text:'玻璃杯里还有酒。杯脚留下水印。',weapon:true},
+  seal:{title:'蓝纹纸片',room:'butler',kind:'seal',text:'纸篓里的一截纸片，有蓝色斜纹和不规则撕口。'},
+  birthcalendar:{title:'六月旧日历',room:'butler',kind:'june',text:'6月17日被圈了起来。纸边已经泛黄。'},
+  drawing:{title:'儿童画',room:'butler',kind:'drawing',text:'画着一座小房子。右下角写着：给周叔。'},
+  safe:{title:'保险柜外侧',room:'butler',kind:'safe',text:'密码提示：她出生那天，月日四位。'},
+  dna:{title:'旧鉴定书复印件',room:'butler',kind:'dna',text:'周启明、凌知夏。支持生物学父女关系。'},
+  collage:{title:'拼贴合照',room:'butler',kind:'collage',text:'照片中是苏曼。她身旁的人脸上，贴着周启明的照片。'},
+  injury:{title:'就诊记录与信',room:'bedroom',kind:'paper',text:'苏曼的多次外伤就诊记录。夹着一封未寄出的求助信。',detail:'我想带女儿离开。'},
+  credentials:{title:'旧学历文件',room:'bedroom',kind:'paper',text:'一份名校毕业证，与一封要求替换姓名和照片的往来信。'},
+  reminder:{title:'用药备忘',room:'bedroom',kind:'phone',text:'18:00，记得晚药。',detail:'记录人：苏曼。'},
+  frame:{title:'翻转的相框',room:'bedroom',kind:'frame',text:'苏曼与凌维岳的合照。'},
+  travelbag:{title:'小旅行袋',room:'bedroom',kind:'case',text:'两套换洗衣物。拉链没有拉上。'},
+  lab:{title:'检验记录',room:'office',kind:'lab',text:'现场送检材料已返回记录。',detail:'棕色小瓶残留：检出HX-17\n药杯残留：检出HX-17\n血液样本：检出HX-17\n水杯、药盒剩余药物：未检出HX-17\n胸前创口：单处；创道周围出血很少'}
+ },
+ questions:{
+  daughter:[['下午的行程','四点三十五左右，我去过办公室。不到十分钟就出来了。'],['后来去了哪里','五点五十到六点五十，我和母亲一直在这里。'],['父女关系','他不会听我的。'],['手臂怎么了','争执时，他抓的。'],['你们争什么','家里的事。我现在不想谈。'],['听到撞击声了吗','听到了。我没有出去看。']],
+  son:[['下午的行程','四点左右找过他。没待多久。'],['六点半以后呢','我上过楼。后来回了这里。'],['去办公室了吗','我不想回答。'],['父子关系','他只喜欢听话的人。'],['回来做什么','有些事要跟他谈。'],['衣服怎么湿了','我洗过。别问了。']],
+  su:[['下午的行程','四点二十，我去和他谈过。四点半前出来了。'],['后来去了哪里','五点五十到六点五十，我在知夏房间。'],['你们谈什么','我想带知夏出去住一阵。'],['关系怎么样','外面看见的，不是全部。'],['他平时吃什么药','我帮他记过时间。药放在办公室。'],['你是名校毕业的吗','今晚一定要谈这个吗？我不回答。']],
+  butler:[['下午的行程','整理办公室，准备晚宴，也替小姐拿过箱子。'],['最后一次见到他','发现现场前？六点前后，办公室。'],['当时在做什么','例行收拾。'],['晚药是你送的吗','今天的药不是我送的。我没有经手。'],['你和他的关系','我在这里工作很多年了。'],['办公室的门','先生有钥匙，我也有一把。']]
+ },
+ followups:{
+  daughter:{complaint:'明早我会递交。他不让我交。',phone:'我早就订好了，不是今晚才想走。',dna:'……我不知道这件事。'},
+  son:{debt:'是我的债。他不肯帮。',coat:'我的衣服。我没有别的话。',door:'这件事，我不回答。',knife:'这件事，我不回答。'},
+  su:{injury:'不止这一次。',credentials:'那份学历是假的。',reminder:'是我写的。平时怕他忘记。',dna:'知夏一直不知道。别当着她问。'},
+  butler:{reminder:'我没有经手今天的药。',cup:'我没有经手今天的药。',bottle:'我没有要补充的。',seal:'我没有要补充的。',email:'我不回答。',dna:'那是私事。',collage:'那是私事。'}
+ },
+ intro:[
+  {time:'17:20',room:'hall',person:'victim',line:'大侦探，七点开席。今晚有些事情，该重新安排了。',caption:'你曾为凌氏赞助的活动找回失窃展品。这封邀请函，让你再次来到白栎庄园。'},
+  {time:'17:21',room:'hall',person:'son',line:'也包括我的事？',caption:'桌上的酒杯还空着。'},
+  {time:'17:21',room:'hall',person:'victim',line:'尤其是你的。',caption:'苏曼放下杯子。知夏没有入座。'},
+  {time:'17:22',room:'hall',person:'butler',line:'您的座位在这边。',caption:'管家接过你的外套。你留在大厅等候。'},
+  {time:'18:35',room:'hall',line:'凌承泽离开酒柜，走上楼梯。',caption:'落地钟的指针指向六点三十五分。'},
+  {time:'18:41',room:'hall',line:'楼上传来一次撞击声。',caption:'楼梯转角挡住了视线。稍后，承泽短暂出现在二楼栏杆后，拽着袖口，向客房走去。'},
+  {time:'18:55',room:'hall',person:'butler',line:'快到开席时间了。先生一直没有下来。',caption:'你跟着管家来到二楼。'},
+  {time:'18:56',room:'office',line:'请先离开门口。',caption:'门虚掩，锁口崩裂。凌维岳坐在椅子上，眼睛闭着。'},
+  {time:'19:00',room:'office',line:'报警后，现场被保留。所有人暂留庄园。',caption:'询问、调查和查看笔记。准备好后，可以提交报告。'}
+ ],
+ ending:[
+  {room:'hall',title:'很多年前',text:'我在走廊里，扶起了被赶出房门的苏曼。那一夜，雨也没有停。',prop:'hands'},
+  {room:'butler',title:'一张儿童画',text:'“给周叔。”她把画递给我。我把它留了很多年。',prop:'drawing'},
+  {room:'office',title:'16:12',text:'我看见了那封尚未发出的委托草稿。我将它移进垃圾箱。',prop:'email'},
+  {room:'daughter',title:'16:47',text:'知夏拉下袖口，把箱子推到我面前。“今晚过后，我不会再回来了。”',prop:'hands'},
+  {room:'office',title:'18:00',text:'我在他的桌旁停下。楼下的钟，敲了六声。',prop:'black'},
+  {room:'hall',title:'18:08',text:'我转动钥匙，离开办公室。楼下，花盆里的泥土还是湿的。',prop:'bottle'},
+  {room:'hall',title:'18:41',text:'楼上传来撞击声。我抬起头，楼梯转角挡住了视线。',prop:'hands'},
+  {room:'office',title:'18:56',text:'我跟在侦探身后。门锁已经坏了。他胸前，多了一把短刀。',prop:'hands'}
+ ]
+};
